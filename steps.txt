@@ -1,0 +1,22 @@
+Create a Sign up, Login, Home, editior pages.
+Implement the Sign up and login api to the frontend.
+Implement the create project feature to the frontend. :
+
+to create the project first we need to featch all the runtimes (API: https://emkc.org/api/v2/piston/runtimes)
+Set the python, js, c, cpp, java etc languages to the options. 
+we can use react select to show the options.
+now we have all the languages in the options.
+Implement the select language feature.
+
+and now create the project.
+
+Get all the projects and populate in home page.
+Implement the edit and delete project feature. (We can only edit name of the project)
+Implement the single project page feature.
+Implement the run code feature. (API: https://emkc.org/api/v2/piston/execute)
+
+Implement the run code feature.
+
+Implement the logout feature.
+
+and now protect all routes.
