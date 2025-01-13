@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import logo from "../images/logos/lh.jpg";
+import logo from "../images/logos/white.png";
 import { Link, useNavigate } from 'react-router-dom';
 import { api_base_url } from '../helper';
 import { toast } from 'react-toastify';
