@@ -195,7 +195,7 @@ const Home = () => {
     <>
       <Navbar />
       <div className="flex items-center px-[15px] md:px-[50px] lg:px-[100px] justify-between mt-5">
-        <h3 className='text-xl sm:text-2xl'>👋Welcome, Wanderer!</h3>
+        <h3 className='text-xl sm:text-2xl'>👋Welcome, User!</h3>
         <div className="flex items-center">
           <button onClick={() => { setIsCreateModelShow(true) }} className="btnNormal bg-blue-500 transition-all hover:bg-blue-600">Create Project</button>
         </div>

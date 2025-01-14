@@ -1,9 +1,10 @@
-import React, { useEffect, useState } from 'react';
-import Navbar from '../components/Navbar';
-import Editor2 from '@monaco-editor/react';
-import { useParams } from 'react-router-dom';
-import { api_base_url } from '../helper';
-import { toast } from 'react-toastify';
+import React, { useEffect, useState } from "react";
+import Navbar from "../components/Navbar";
+import { SunIcon, MoonIcon } from "@heroicons/react/solid"; // Import icons
+import Editor2 from "@monaco-editor/react";
+import { useParams } from "react-router-dom";
+import { api_base_url } from "../helper";
+import { toast } from "react-toastify";
 
 const Editor = () => {
   const [code, setCode] = useState(""); // Code being edited
@@ -13,17 +14,18 @@ const Editor = () => {
   const [data, setData] = useState(null); // Project details
   const [input, setInput] = useState(""); // Input for stdin
   const [showOutput, setShowOutput] = useState(true); // Toggle output visibility
+  const [theme, setTheme] = useState("vs-dark"); // Editor theme state
 
   // Fetch project data
   useEffect(() => {
     fetch(`${api_base_url}/getProject`, {
-      mode: 'cors',
-      method: 'POST',
+      mode: "cors",
+      method: "POST",
       headers: {
-        'Content-Type': 'application/json',
+        "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        token: localStorage.getItem('token'),
+        token: localStorage.getItem("token"),
         projectId: id,
       }),
     })
@@ -37,8 +39,8 @@ const Editor = () => {
         }
       })
       .catch((err) => {
-        console.error('Error fetching project:', err);
-        toast.error('Failed to load project.');
+        console.error("Error fetching project:", err);
+        toast.error("Failed to load project.");
       });
   }, [id]);
 
@@ -47,13 +49,13 @@ const Editor = () => {
     const trimmedCode = code?.toString().trim();
 
     fetch(`${api_base_url}/saveProject`, {
-      mode: 'cors',
-      method: 'POST',
+      mode: "cors",
+      method: "POST",
       headers: {
-        'Content-Type': 'application/json',
+        "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        token: localStorage.getItem('token'),
+        token: localStorage.getItem("token"),
         projectId: id,
         code: trimmedCode,
       }),
@@ -67,18 +69,25 @@ const Editor = () => {
         }
       })
       .catch((err) => {
-        console.error('Error saving project:', err);
-        toast.error('Failed to save the project.');
+        console.error("Error saving project:", err);
+        toast.error("Failed to save the project.");
       });
   };
 
   // Run project
   const runProject = () => {
-    const fileExtension = data.projLanguage === 'python' ? '.py' :
-                          data.projLanguage === 'java' ? '.java' :
-                          data.projLanguage === 'javascript' ? '.js' :
-                          data.projLanguage === 'c' ? '.c' :
-                          data.projLanguage === 'cpp' ? '.cpp' : '';
+    const fileExtension =
+      data.projLanguage === "python"
+        ? ".py"
+        : data.projLanguage === "java"
+        ? ".java"
+        : data.projLanguage === "javascript"
+        ? ".js"
+        : data.projLanguage === "c"
+        ? ".c"
+        : data.projLanguage === "cpp"
+        ? ".cpp"
+        : "";
 
     fetch("https://emkc.org/api/v2/piston/execute", {
       method: "POST",
@@ -109,7 +118,7 @@ const Editor = () => {
         }
       })
       .catch((err) => {
-        console.error('Error executing project:', err);
+        console.error("Error executing project:", err);
         setOutput("Error: Failed to execute code.");
         setError(true);
       });
@@ -118,15 +127,15 @@ const Editor = () => {
   // Handle Ctrl+S shortcut
   useEffect(() => {
     const handleSaveShortcut = (e) => {
-      if (e.ctrlKey && e.key === 's') {
+      if (e.ctrlKey && e.key === "s") {
         e.preventDefault();
         saveProject();
       }
     };
 
-    window.addEventListener('keydown', handleSaveShortcut);
+    window.addEventListener("keydown", handleSaveShortcut);
     return () => {
-      window.removeEventListener('keydown', handleSaveShortcut);
+      window.removeEventListener("keydown", handleSaveShortcut);
     };
   }, [code]);
 
@@ -134,31 +143,53 @@ const Editor = () => {
     <>
       <Navbar />
 
-      <div className="flex flex-col md:flex-row items-center justify-between w-full" style={{ height: 'calc(100vh - 90px)' }}>
+      
+      <div className="fixed top-8 left-[calc(60%-20px)] z-10">
+        <button
+          onClick={() => setTheme(theme === "vs-dark" ? "light" : "vs-dark")}
+          className="text-white bg-black p-3 rounded-full transition-all hover:bg-gray-800 "
+        >
+          {theme === "vs-dark" ? (
+            <SunIcon className="h-4 w-4" />
+          ) : (
+            <MoonIcon className="h-4 w-4" />
+          )}
+        </button>
+      </div>
+
+      <div
+        className="flex flex-col md:flex-row items-center justify-between w-full"
+        style={{ height: "calc(100vh - 90px)" }}
+      >
         {/* Code Editor */}
         <div className="flex-1 w-full h-[50vh] md:h-full bg-gray-800">
           <Editor2
             value={code}
-            language={data ? data.projLanguage : 'java'}
-            theme="vs-dark"
+            language={data ? data.projLanguage : "java"}
+            theme={theme}
             options={{
               formatOnType: true,
               formatOnPaste: true,
               automaticLayout: true, // Adjust editor layout dynamically
+              minimap: {
+                enabled: window.innerWidth >= 768, // Disable minimap for mobile devices
+              },
             }}
-            onChange={(newCode) => setCode(newCode || '')}
+            onChange={(newCode) => setCode(newCode || "")}
             onMount={(editor) => {
-              editor.getAction('editor.action.formatDocument').run(); // Format code on load
+              editor.getAction("editor.action.formatDocument").run(); // Format code on load
             }}
           />
         </div>
 
         {/* Output and Input */}
-        <div className={`flex-1 w-full md:w-[50%] h-[30vh] md:h-full bg-[#27272a] ${showOutput ? '' : 'hidden md:block'}`}>
+        <div
+          className={`flex-1 w-full md:w-[50%] h-[50vh] md:h-full bg-[#27272a] ${showOutput ? "" : "hidden md:block"}`}
+        >
           <div className="flex pb-3 border-b-[1px] border-b-[#1e1e1f] items-center justify-between px-[10px] md:px-[30px]">
             <p className="p-0 m-0 text-sm md:text-base text-white">Output</p>
             <button
-              className="btnNormal !w-fit !px-[10px] md:!px-[20px] bg-blue-500 transition-all hover:bg-blue-600"
+              className="btnNormal !w-fit !px-[8px] !py-[6px] text-sm md:!px-[20px] bg-blue-500 transition-all hover:bg-blue-600"
               onClick={runProject}
             >
               Run
@@ -168,13 +199,11 @@ const Editor = () => {
             placeholder="Enter input for your program"
             onChange={(e) => setInput(e.target.value)}
             value={input}
-            className="w-full h-[20%] p-2 mb-2 bg-[#1e1e1f] text-white"
-            style={{ resize: 'none' }}
+            className="w-full h-[15%] p-2 mb-2 bg-[#1e1e1f] text-white"
+            style={{ resize: "none" }}
           ></textarea>
           <pre
-            className={`w-full h-[80%] overflow-auto ${
-              error ? 'text-red-500' : 'text-white'
-            }`}
+            className={`w-full h-[80%] overflow-auto ${error ? "text-red-500" : "text-white"}`}
           >
             {output}
           </pre>
@@ -182,12 +211,20 @@ const Editor = () => {
       </div>
 
       {/* Toggle Output Button for Mobile View */}
-      <button
-        className="fixed bottom-4 right-4 p-3 bg-blue-500 text-white rounded-full shadow-md md:hidden"
-        onClick={() => setShowOutput(!showOutput)}
-      >
-        {showOutput ? 'Hide Output' : 'Show Output'}
-      </button>
+      <div className="fixed bottom-4 right-4 flex flex-col space-y-2 md:hidden">
+        <button
+          className="p-2 bg-blue-500 text-white rounded-full shadow-md text-sm"
+          onClick={() => setShowOutput(!showOutput)}
+        >
+          {showOutput ? "Hide Output" : "Show Output"}
+        </button>
+        <button
+          className="p-2 bg-green-500 text-white rounded-full shadow-md text-sm"
+          onClick={saveProject}
+        >
+          Save
+        </button>
+      </div>
     </>
   );
 };

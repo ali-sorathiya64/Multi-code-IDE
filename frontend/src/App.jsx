@@ -9,6 +9,7 @@ import Editor from './pages/Editor';
 import Contact from './pages/Contact';
 import Services from './pages/Services';
 import About from './pages/About';
+// import Output from './pages/Output';
 
 
 const App = () => {
@@ -31,6 +32,7 @@ const RouteHandler = () => {
         <Route path="/signUp" element={<SignUp />} />
         <Route path="/login" element={<Login />} />
         <Route path="/editior/:id" element={isLoggedIn ? <Editor /> : <Navigate to={"/login"}/>} />
+        {/* <Route path="/output/:id" element={isLoggedIn ? <Output /> : <Navigate to={"/login"}/>}/> */}
         <Route path="*" element={<NoPage />} />
         <Route path="/about" element={<About />} />
         <Route path="/services" element={<Services />} />
