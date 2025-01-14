@@ -143,20 +143,6 @@ const Editor = () => {
     <>
       <Navbar />
 
-      
-      <div className="fixed top-8 left-[calc(60%-20px)] z-10">
-        <button
-          onClick={() => setTheme(theme === "vs-dark" ? "light" : "vs-dark")}
-          className="text-white bg-black p-3 rounded-full transition-all hover:bg-gray-800 "
-        >
-          {theme === "vs-dark" ? (
-            <SunIcon className="h-4 w-4" />
-          ) : (
-            <MoonIcon className="h-4 w-4" />
-          )}
-        </button>
-      </div>
-
       <div
         className="flex flex-col md:flex-row items-center justify-between w-full"
         style={{ height: "calc(100vh - 90px)" }}
@@ -186,8 +172,20 @@ const Editor = () => {
         <div
           className={`flex-1 w-full md:w-[50%] h-[50vh] md:h-full bg-[#27272a] ${showOutput ? "" : "hidden md:block"}`}
         >
-          <div className="flex pb-3 border-b-[1px] border-b-[#1e1e1f] items-center justify-between px-[10px] md:px-[30px]">
-            <p className="p-0 m-0 text-sm md:text-base text-white">Output</p>
+          <div className="flex items-center justify-between px-[10px] md:px-[30px] pb-3 border-b-[1px] border-b-[#1e1e1f]">
+            <div className="flex items-center space-x-2">
+              <p className="p-0 m-0 text-sm md:text-base text-white">Output</p>
+              <button
+                onClick={() => setTheme(theme === "vs-dark" ? "light" : "vs-dark")}
+                className="text-white bg-black p-2 rounded-full transition-all hover:bg-gray-800"
+              >
+                {theme === "vs-dark" ? (
+                  <SunIcon className="h-4 w-4" />
+                ) : (
+                  <MoonIcon className="h-4 w-4" />
+                )}
+              </button>
+            </div>
             <button
               className="btnNormal !w-fit !px-[8px] !py-[6px] text-sm md:!px-[20px] bg-blue-500 transition-all hover:bg-blue-600"
               onClick={runProject}
