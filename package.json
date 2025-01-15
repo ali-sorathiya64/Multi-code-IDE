@@ -3,9 +3,8 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "dev": "nodemon backend/index.js",
-    "build":"npm install && npm install",
-    "start": "nodemon backend/index.js"
+    "build": "npm install --prefix backend && npm install --prefix frontend && npm run build --prefix frontend",
+    "start": "npm run start --prefix backend"
   },
   "dependencies": {
     "bcryptjs": "^2.4.3",
