@@ -53,58 +53,72 @@ const Home = () => {
     }),
   };
 
+  // Fetch supported runtimes for project creation
   const getRunTimes = async () => {
-    let res = await fetch("https://emkc.org/api/v2/piston/runtimes");
-    let data = await res.json();
+    try {
+      let res = await fetch("https://emkc.org/api/v2/piston/runtimes");
+      let data = await res.json();
 
-    console.log("Backend response:", data);
+      console.log("Backend response (runtimes):", data); // Debugging
 
-    const filteredLanguages = [
-      "python",
-      "javascript",
-      "c",
-      "c++",
-      "java",
-      "csharp",
-      "php",
-    ];
+      const filteredLanguages = [
+        "python",
+        "javascript",
+        "c",
+        "c++",
+        "java",
+        "csharp",
+        "php",
+      ];
 
-    const options = data
-      .filter(runtime => filteredLanguages.includes(runtime.language))
-      .map(runtime => ({
-        label: `${runtime.language} (${runtime.version})`,
-        value: runtime.language === "c++" ? "cpp" : runtime.language === "csharp" ? "c#" : runtime.language === "php" ? "php" : runtime.language,
-        version: runtime.version,
-      }));
+      const options = data
+        .filter(runtime => filteredLanguages.includes(runtime.language))
+        .map(runtime => ({
+          label: `${runtime.language} (${runtime.version})`,
+          value: runtime.language === "c++" ? "cpp" : runtime.language === "csharp" ? "c#" : runtime.language === "php" ? "php" : runtime.language,
+          version: runtime.version,
+        }));
 
-    setLanguageOptions(options);
+      console.log("Filtered language options:", options); // Debugging
+      setLanguageOptions(options);
+    } catch (error) {
+      console.error("Error fetching runtimes:", error);
+      toast.error("Failed to fetch runtimes.");
+    }
   };
 
   const handleLanguageChange = (selectedOption) => {
     setSelectedLanguage(selectedOption);
-    console.log("Selected language:", selectedOption);
+    console.log("Selected language:", selectedOption); // Debugging
   };
 
   const [projects, setProjects] = useState([]);
 
+  // Fetch projects associated with the user
   const getProjects = async () => {
-    fetch(api_base_url + "/getProjects", {
-      mode: "cors",
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify({
-        token: localStorage.getItem("token")
-      })
-    }).then(res => res.json()).then(data => {
+    try {
+      const res = await fetch(api_base_url + "/getProjects", {
+        mode: "cors",
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+          token: localStorage.getItem("token")
+        })
+      });
+      const data = await res.json();
+
+      console.log("Projects data:", data); // Debugging
       if (data.success) {
         setProjects(data.projects);
-      }
-      else {
+      } else {
         toast.error(data.msg);
       }
-    });
+    } catch (error) {
+      console.error("Error fetching projects:", error);
+      toast.error("Failed to fetch projects.");
+    }
   };
 
   useEffect(() => {
@@ -112,83 +126,94 @@ const Home = () => {
     getRunTimes();
   }, []);
 
-  const createProj = () => {
-    fetch(api_base_url + "/createProj", {
-      mode: "cors",
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify({
-        name: name,
-        projLanguage: selectedLanguage.value,
-        token: localStorage.getItem("token"),
-        version: selectedLanguage.version
-      })
-    }).then(res => res.json()).then(data => {
-      if (data.success) {
-        setName("");
-        navigate("/editior/" + data.projectId);
-      }
-      else {
-        toast.error(data.msg);
-      }
-    })
-  };
-
-  const deleteProject = (id) => {
-    let conf = confirm("Are you sure you want to delete this project?");
-    if (conf) {
-      fetch(api_base_url + "/deleteProject", {
+  const createProj = async () => {
+    try {
+      const res = await fetch(api_base_url + "/createProj", {
         mode: "cors",
         method: "POST",
         headers: {
           "Content-Type": "application/json"
         },
         body: JSON.stringify({
-          projectId: id,
-          token: localStorage.getItem("token")
+          name: name,
+          projLanguage: selectedLanguage.value,
+          token: localStorage.getItem("token"),
+          version: selectedLanguage.version
         })
-      }).then(res => res.json()).then(data => {
+      });
+      const data = await res.json();
+
+      if (data.success) {
+        setName("");
+        navigate("/editior/" + data.projectId);
+      } else {
+        toast.error(data.msg);
+      }
+    } catch (error) {
+      console.error("Error creating project:", error);
+      toast.error("Failed to create project.");
+    }
+  };
+
+  const deleteProject = async (id) => {
+    const conf = window.confirm("Are you sure you want to delete this project?");
+    if (conf) {
+      try {
+        const res = await fetch(api_base_url + "/deleteProject", {
+          mode: "cors",
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify({
+            projectId: id,
+            token: localStorage.getItem("token")
+          })
+        });
+        const data = await res.json();
+
         if (data.success) {
           getProjects();
-        }
-        else {
+        } else {
           toast.error(data.msg);
         }
-      });
+      } catch (error) {
+        console.error("Error deleting project:", error);
+        toast.error("Failed to delete project.");
+      }
     }
   };
 
   const [editProjId, setEditProjId] = useState("");
 
-  const updateProj = () => {
-    fetch(api_base_url + "/editProject", {
-      mode: "cors",
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify({
-        projectId: editProjId,
-        token: localStorage.getItem("token"),
-        name: name,
-      })
-    }).then(res => res.json()).then(data => {
+  const updateProj = async () => {
+    try {
+      const res = await fetch(api_base_url + "/editProject", {
+        mode: "cors",
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+          projectId: editProjId,
+          token: localStorage.getItem("token"),
+          name: name,
+        })
+      });
+      const data = await res.json();
+
       if (data.success) {
         setIsEditModelShow(false);
         setName("");
         setEditProjId("");
         getProjects();
-      }
-      else {
+      } else {
         toast.error(data.msg);
-        setIsEditModelShow(false);
-        setName("");
-        setEditProjId("");
-        getProjects();
       }
-    })
+    } catch (error) {
+      console.error("Error updating project:", error);
+      toast.error("Failed to update project.");
+    }
   };
 
   return (
@@ -203,49 +228,51 @@ const Home = () => {
 
       <div className="projects px-[15px] sm:px-[50px] md:px-[100px] mt-5 pb-10">
         {
-          projects && projects.length > 0 ? projects.map((project, index) => {
-            return <div key={project._id} className="project w-full p-[15px] flex items-center justify-between bg-[#0f0e0e] mb-4 sm:mb-6">
-              <div onClick={() => { navigate("/editior/" + project._id) }} className='flex w-full items-center gap-[15px]'>
-                {
-                  project.projLanguage === "python" ? 
-                    <img className='w-[100px] sm:w-[130px] h-[70px] sm:h-[100px] object-cover' src={python} alt="" /> :
+          projects && projects.length > 0 ? projects.map((project) => {
+            return (
+              <div key={project._id} className="project w-full p-[15px] flex items-center justify-between bg-[#0f0e0e] mb-4 sm:mb-6">
+                <div onClick={() => { navigate("/editior/" + project._id) }} className='flex w-full items-center gap-[15px]'>
+                  {
+                    project.projLanguage === "python" ? 
+                      <img className='w-[100px] sm:w-[130px] h-[70px] sm:h-[100px] object-cover' src={python} alt="Python" /> :
                     project.projLanguage === "javascript" ? 
-                      <img className='w-[100px] sm:w-[130px] h-[70px] sm:h-[100px] object-cover' src={js} alt="" /> :
-                      project.projLanguage === "cpp" ? 
-                        <img className='w-[100px] sm:w-[130px] h-[70px] sm:h-[100px] object-cover' src={cpp} alt="" /> :
-                        project.projLanguage === "c" ? 
-                          <img className='w-[100px] sm:w-[130px] h-[70px] sm:h-[100px] object-cover' src={c} alt="" /> :
-                          project.projLanguage === "java" ? 
-                            <img className='w-[100px] sm:w-[130px] h-[70px] sm:h-[100px] object-cover' src={javac} alt="" /> :
-                            project.projLanguage === "c#" ? 
-                              <img className='w-[100px] sm:w-[130px] h-[70px] sm:h-[100px] object-cover' src={cSharp} alt="" /> :
-                              project.projLanguage === "php" ? 
-                                <img className='w-[100px] sm:w-[130px] h-[70px] sm:h-[100px] object-cover' src={phpIcon} alt="" /> : "" 
-                }
-                <div>
-                  <h3 className='text-lg sm:text-xl'>{project.name}</h3>
-                  <p className='text-[12px] sm:text-[14px] text-[gray] mt-1'>
-                    <span className="text-sm sm:text-lg font-semibold text-indigo-500">
-                      {new Date(project.date).toLocaleDateString('en-US', {
-                        weekday: 'short',
-                        day: '2-digit',
-                        month: 'short',
-                        year: 'numeric',
-                      })}
-                    </span>
-                  </p>
+                      <img className='w-[100px] sm:w-[130px] h-[70px] sm:h-[100px] object-cover' src={js} alt="JavaScript" /> :
+                    project.projLanguage === "cpp" ? 
+                      <img className='w-[100px] sm:w-[130px] h-[70px] sm:h-[100px] object-cover' src={cpp} alt="C++" /> :
+                    project.projLanguage === "c" ? 
+                      <img className='w-[100px] sm:w-[130px] h-[70px] sm:h-[100px] object-cover' src={c} alt="C" /> :
+                    project.projLanguage === "java" ? 
+                      <img className='w-[100px] sm:w-[130px] h-[70px] sm:h-[100px] object-cover' src={javac} alt="Java" /> :
+                    project.projLanguage === "c#" ? 
+                      <img className='w-[100px] sm:w-[130px] h-[70px] sm:h-[100px] object-cover' src={cSharp} alt="C#" /> :
+                    project.projLanguage === "php" ? 
+                      <img className='w-[100px] sm:w-[130px] h-[70px] sm:h-[100px] object-cover' src={phpIcon} alt="PHP" /> : ""
+                  }
+                  <div>
+                    <h3 className='text-lg sm:text-xl'>{project.name}</h3>
+                    <p className='text-[12px] sm:text-[14px] text-[gray] mt-1'>
+                      <span className="text-sm sm:text-lg font-semibold text-indigo-500">
+                        {new Date(project.date).toLocaleDateString('en-US', {
+                          weekday: 'short',
+                          day: '2-digit',
+                          month: 'short',
+                          year: 'numeric',
+                        })}
+                      </span>
+                    </p>
+                  </div>
+                </div>
+                <div className="flex items-center gap-[10px] sm:gap-[15px]">
+                  <button className="btnNormal bg-blue-500 transition-all hover:bg-blue-600" onClick={() => {
+                    setIsEditModelShow(true);
+                    setEditProjId(project._id);
+                    setName(project.name);
+                  }}>Edit</button>
+                  <button onClick={() => { deleteProject(project._id) }} className="btnNormal bg-red-500 transition-all hover:bg-red-600">Delete</button>
                 </div>
               </div>
-              <div className="flex items-center gap-[10px] sm:gap-[15px]">
-                <button className="btnNormal bg-blue-500 transition-all hover:bg-blue-600" onClick={() => {
-                  setIsEditModelShow(true);
-                  setEditProjId(project._id);
-                  setName(project.name);
-                }}>Edit</button>
-                <button onClick={() => { deleteProject(project._id) }} className="btnNormal bg-red-500 transition-all hover:bg-red-600">Delete</button>
-              </div>
-            </div>
-          }) : "No Project Found !"
+            );
+          }) : "No Project Found!"
         }
       </div>
 
