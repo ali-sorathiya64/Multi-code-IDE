@@ -79,19 +79,20 @@ const About = () => {
           </div>
         </section>
 
-        {/* Getting Started Section */}
-        <section className="mt-16">
-          <h2 className="text-4xl font-semibold text-white">Getting Started</h2>
-          <p className="mt-4 text-lg text-gray-300 max-w-3xl mx-auto leading-relaxed">
-            Ready to revolutionize your coding experience? Follow these steps to get started with CodeNexus:
-          </p>
-          <ol className="mt-6 text-lg text-gray-300 list-decimal list-inside max-w-2xl mx-auto space-y-4 leading-relaxed">
-            <li>Sign up for a free account on our website.</li>
-            <li>Download the CodeNexus app for your platform.</li>
-            <li>Explore our extensive documentation and tutorials.</li>
-            <li>Start coding with powerful tools at your fingertips!</li>
-          </ol>
-        </section>
+        
+{/* Getting Started Section */}
+<section className="mt-16">
+  <h2 className="text-4xl font-semibold text-white">Getting Started</h2>
+  <p className="mt-4 text-lg text-gray-300 max-w-3xl mx-auto leading-relaxed">
+    Getting started with CodeNexus is easy and straightforward. Here’s how you can begin:
+  </p>
+  <ol className="mt-6 text-lg text-gray-300 list-decimal list-inside max-w-2xl mx-auto space-y-4 leading-relaxed">
+    <li>Visit the homepage to access all the features directly.</li>
+    <li>Explore the clean and user-friendly interface designed for simplicity.</li>
+    <li>Start creating and organizing your code projects without any hassle.</li>
+    <li>Check out the resources and guides available to help you along the way.</li>
+  </ol>
+</section>
 
         {/* Call-to-Action */}
         <div className="mt-16">
