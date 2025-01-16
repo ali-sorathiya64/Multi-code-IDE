@@ -21,20 +21,12 @@ connectDB();
 // Create the Express app
 const app = express();
 
-// Set up the view engine
-app.set('views', path.join(__dirname, 'views'));
-app.set('view engine', 'ejs');
-
 // Middleware
 app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(cors());
-
-// Serve static files
-app.use(express.static(path.join(__dirname, 'public')));
-app.use(express.static(path.join(__dirname, '/frontend/dist')));
 
 // Define routes
 app.use('/', indexRouter);
@@ -50,12 +42,7 @@ app.use((err, req, res, next) => {
   res.locals.message = err.message;
   res.locals.error = req.app.get('env') === 'development' ? err : {};
   res.status(err.status || 500);
-  res.render('error');
-});
-
-// Handle React frontend routing
-app.get('*', (_, res) => {
-  res.sendFile(path.resolve(__dirname, 'frontend', 'dist', 'index.html'));
+  res.json({ error: err.message }); // Respond with JSON instead of rendering views
 });
 
 // Set the port
