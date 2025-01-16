@@ -3,10 +3,10 @@ import Navbar from '../components/Navbar';
 
 const About = () => {
   return (
-    <div className="bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 min-h-screen text-white">
+    <div className="bg-gray-900 min-h-screen text-white">
       <Navbar />
       <div className="text-center mt-12 px-4 sm:px-6 lg:px-8">
-        <h1 className="text-5xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-pink-600">
+        <h1 className="text-4xl font-extrabold text-white">
           Welcome to CodeNexus
         </h1>
         <p className="mt-6 text-xl text-gray-300 max-w-3xl mx-auto leading-relaxed">
@@ -15,7 +15,7 @@ const About = () => {
 
         {/* Our Mission Section */}
         <section className="mt-16">
-          <h2 className="text-4xl font-semibold text-purple-400">Our Mission</h2>
+          <h2 className="text-4xl font-semibold text-white">Our Mission</h2>
           <p className="mt-4 text-lg text-gray-300 max-w-2xl mx-auto leading-relaxed">
             At CodeNexus, we are driven by the mission to make coding more accessible and productive. We aim to offer a no-nonsense, intuitive platform that helps developers write code with fewer errors, faster execution, and less complexity.
           </p>
@@ -23,7 +23,7 @@ const About = () => {
 
         {/* Core Values Section */}
         <section className="mt-16">
-          <h2 className="text-4xl font-semibold text-pink-400">Core Values</h2>
+          <h2 className="text-4xl font-semibold text-white">Core Values</h2>
           <ul className="mt-6 text-lg text-gray-300 list-disc list-inside max-w-2xl mx-auto leading-relaxed space-y-4">
             <li><strong>Practicality:</strong> Our tools are designed to directly enhance productivity without unnecessary distractions.</li>
             <li><strong>Efficiency:</strong> We prioritize speed and error-free coding to save you time and effort.</li>
@@ -34,7 +34,7 @@ const About = () => {
 
         {/* Features Section */}
         <section className="mt-16">
-          <h2 className="text-4xl font-semibold text-green-400">Powerful Features</h2>
+          <h2 className="text-4xl font-semibold text-white">Powerful Features</h2>
           <p className="mt-4 text-lg text-gray-300 max-w-3xl mx-auto leading-relaxed">
             CodeNexus is packed with features to streamline your workflow:
           </p>
@@ -49,40 +49,39 @@ const About = () => {
         </section>
 
         {/* Testimonials Section */}
-       {/* Testimonials Section */}
-<section className="mt-16 bg-gray-800 py-12 rounded-lg shadow-lg">
-  <h2 className="text-4xl font-semibold text-blue-400">What Our Users Say</h2>
-  <div className="mt-8 grid grid-cols-1 md:grid-cols-2 gap-8 px-4 sm:px-6 lg:px-8">
-    <div className="bg-gray-700 p-6 rounded-lg shadow-md">
-      <p className="text-lg text-gray-300">
-        "The interface is clean and easy to use. I don’t feel overwhelmed when I start a new project."
-      </p>
-      <p className="mt-4 text-sm font-bold text-blue-400">- Andrew Garfield</p>
-    </div>
-    <div className="bg-gray-700 p-6 rounded-lg shadow-md">
-      <p className="text-lg text-gray-300">
-        "I like how everything is organized. It’s straightforward and doesn’t require a lot of setup to get started."
-      </p>
-      <p className="mt-4 text-sm font-bold text-blue-400">- Henry Cavill</p>
-    </div>
-    <div className="bg-gray-700 p-6 rounded-lg shadow-md">
-      <p className="text-lg text-gray-300">
-        "It’s simple and does exactly what I need it to do. Perfect for personal projects."
-      </p>
-      <p className="mt-4 text-sm font-bold text-blue-400">- Shawn Mendes</p>
-    </div>
-    <div className="bg-gray-700 p-6 rounded-lg shadow-md">
-      <p className="text-lg text-gray-300">
-        "I’m new to coding, and this app helped me focus on writing code without getting lost in complicated tools."
-      </p>
-      <p className="mt-4 text-sm font-bold text-blue-400">- Harry Styles</p>
-    </div>
-  </div>
-</section>
+        <section className="mt-16 bg-gray-800 py-12 rounded-lg shadow-lg">
+          <h2 className="text-4xl font-semibold text-white">What Our Users Say</h2>
+          <div className="mt-8 grid grid-cols-1 md:grid-cols-2 gap-8 px-4 sm:px-6 lg:px-8">
+            <div className="bg-gray-700 p-6 rounded-lg shadow-md">
+              <p className="text-lg text-gray-300">
+                "The interface is clean and easy to use. I don’t feel overwhelmed when I start a new project."
+              </p>
+              <p className="mt-4 text-sm font-bold text-gray-400">- Andrew Garfield</p>
+            </div>
+            <div className="bg-gray-700 p-6 rounded-lg shadow-md">
+              <p className="text-lg text-gray-300">
+                "I like how everything is organized. It’s straightforward and doesn’t require a lot of setup to get started."
+              </p>
+              <p className="mt-4 text-sm font-bold text-gray-400">- Henry Cavill</p>
+            </div>
+            <div className="bg-gray-700 p-6 rounded-lg shadow-md">
+              <p className="text-lg text-gray-300">
+                "It’s simple and does exactly what I need it to do. Perfect for personal projects."
+              </p>
+              <p className="mt-4 text-sm font-bold text-gray-400">- Shawn Mendes</p>
+            </div>
+            <div className="bg-gray-700 p-6 rounded-lg shadow-md">
+              <p className="text-lg text-gray-300">
+                "I’m new to coding, and this app helped me focus on writing code without getting lost in complicated tools."
+              </p>
+              <p className="mt-4 text-sm font-bold text-gray-400">- Harry Styles</p>
+            </div>
+          </div>
+        </section>
 
         {/* Getting Started Section */}
         <section className="mt-16">
-          <h2 className="text-4xl font-semibold text-yellow-400">Getting Started</h2>
+          <h2 className="text-4xl font-semibold text-white">Getting Started</h2>
           <p className="mt-4 text-lg text-gray-300 max-w-3xl mx-auto leading-relaxed">
             Ready to revolutionize your coding experience? Follow these steps to get started with CodeNexus:
           </p>
@@ -98,7 +97,7 @@ const About = () => {
         <div className="mt-16">
           <a
             href="/"
-            className="inline-block bg-gradient-to-r from-purple-500 to-pink-500 text-white px-6 py-3 rounded-lg shadow-lg text-lg font-semibold hover:from-pink-500 hover:to-purple-500 transition-all duration-300"
+            className="inline-block bg-blue-500 text-white px-6 py-3 rounded-lg shadow-lg text-lg font-semibold hover:bg-blue-600 transition-all duration-300"
           >
             Get Started Today
           </a>
