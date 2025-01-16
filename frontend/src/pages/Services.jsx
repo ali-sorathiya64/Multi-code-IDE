@@ -17,49 +17,49 @@ const Services = () => {
             {
               title: "Error Detection & Debugging",
               description:
-                "Automatically detect errors and warnings in your code when you run it. Our IDE provides detailed error messages and suggestions to help you debug issues quickly and efficiently.",
+                "Automatically detect errors and warnings in your code as you work. Our IDE highlights issues, provides detailed error messages, and offers suggestions to help you debug effectively.",
             },
             {
               title: "Code Suggestions",
               description:
-                "Receive intelligent code suggestions as you type. Our IDE helps you write more efficient and error-free code by offering suggestions and autocompletions.",
+                "Write code faster with intelligent suggestions. Our IDE assists with autocompletion, function hints, and syntax improvements, reducing manual effort.",
             },
             {
               title: "Authentication & Security",
               description:
-                "Secure your projects with built-in authentication features. Manage user access and permissions to ensure your code remains protected.",
+                "Protect your projects with built-in authentication. Manage user access and ensure your data is secure with robust security protocols.",
             },
             {
               title: "Project Management",
               description:
-                "Save, update, and delete projects with ease. Our IDE provides a simple interface for managing your projects, allowing you to stay organized and efficient.",
+                "Stay organized by managing multiple projects effortlessly. Save, update, rename, and delete projects directly within the IDE.",
             },
             {
               title: "Multi-language Support",
               description:
-                "Work with multiple programming languages including Python, JavaScript, Java, and C++. Our IDE supports a diverse range of languages, ensuring a consistent coding experience.",
+                "Code in your preferred language. Our IDE supports Python, JavaScript, Java, C++, and more, making it suitable for diverse projects.",
             },
             {
               title: "Customizable IDE Settings",
               description:
-                "Adjust themes, syntax highlighting, and keyboard shortcuts to create a personalized coding environment tailored to your preferences.",
+                "Personalize your coding environment with custom themes, syntax highlighting, and keyboard shortcuts to suit your preferences.",
             },
             {
               title: "Save Your Project",
               description:
-                "Keep your work safe and organized by saving your progress. With our easy-to-use project management features, you can save your code at any time.",
+                "Save your progress anytime and access it later with ease. Never worry about losing your work again.",
               buttonLabel: "Save",
               buttonColor: "bg-blue-500 hover:bg-blue-600",
             },
             {
               title: "Real-Time Collaboration",
               description:
-                "Collaborate with team members in real-time. Share your code and work together on projects, making team development faster and more efficient.",
+                "Collaborate seamlessly with team members in real-time. Share your projects and work together to achieve better results.",
             },
             {
               title: "Delete Project",
               description:
-                "Remove any project you no longer need. With our intuitive project management interface, you can delete projects with a single click.",
+                "Clean up your workspace by removing unnecessary projects. A simple and efficient way to stay organized.",
               buttonLabel: "Delete",
               buttonColor: "bg-red-500 hover:bg-red-600",
             },
