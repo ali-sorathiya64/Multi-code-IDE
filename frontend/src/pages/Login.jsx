@@ -34,7 +34,7 @@ const Login = () => {
         localStorage.setItem("isLoggedIn", true);
 
         // Navigate to the home page
-        toast.success("Logged in successfully!", { position: "top-center", autoClose: 2000 });
+        toast.success("Logged in successfully!", { position: "top-center", autoClose: 1000 });
         setTimeout(() => {
           window.location.href = "/";
         }, 2000);

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import Navbar from "../components/Navbar";
-import { SunIcon, MoonIcon } from "@heroicons/react/solid"; // Import icons
+import { SunIcon, MoonIcon, DownloadIcon, TrashIcon } from "@heroicons/react/solid";
 import Editor2 from "@monaco-editor/react";
 import { useParams } from "react-router-dom";
 import { api_base_url } from "../helper";
@@ -15,6 +15,7 @@ const Editor = () => {
   const [input, setInput] = useState(""); // Input for stdin
   const [showOutput, setShowOutput] = useState(true); // Toggle output visibility
   const [theme, setTheme] = useState("vs-dark"); // Editor theme state
+  const [fontSize, setFontSize] = useState(14); // Font size state
 
   // Fetch project data
   useEffect(() => {
@@ -108,7 +109,6 @@ const Editor = () => {
     })
       .then((res) => res.json())
       .then((data) => {
-        console.log(data);
         if (data.run) {
           setOutput(data.run.output); // Show output
           setError(data.run.code !== 0); // Mark as error if code !== 0
@@ -122,6 +122,21 @@ const Editor = () => {
         setOutput("Error: Failed to execute code.");
         setError(true);
       });
+  };
+
+  // Export code as a file
+  const exportCode = () => {
+    const blob = new Blob([code], { type: "text/plain;charset=utf-8" });
+    const link = document.createElement("a");
+    link.href = URL.createObjectURL(blob);
+    link.download = `${data?.name || "code"}.txt`;
+    link.click();
+  };
+
+  // Clear output
+  const clearOutput = () => {
+    setOutput("");
+    toast.info("Output cleared.");
   };
 
   // Handle Ctrl+S shortcut
@@ -154,16 +169,18 @@ const Editor = () => {
             language={data ? data.projLanguage : "java"}
             theme={theme}
             options={{
+              fontSize,
               formatOnType: true,
               formatOnPaste: true,
-              automaticLayout: true, // Adjust editor layout dynamically
+              automaticLayout: true,
               minimap: {
                 enabled: window.innerWidth >= 768, // Disable minimap for mobile devices
               },
             }}
             onChange={(newCode) => setCode(newCode || "")}
-            onMount={(editor) => {
-              editor.getAction("editor.action.formatDocument").run(); // Format code on load
+            onValidate={(markers) => {
+              const hasErrors = markers.some((marker) => marker.severity === 8); // 8 = Error level severity in Monaco
+              setError(hasErrors);
             }}
           />
         </div>
@@ -178,6 +195,7 @@ const Editor = () => {
               <button
                 onClick={() => setTheme(theme === "vs-dark" ? "light" : "vs-dark")}
                 className="text-white bg-black p-2 rounded-full transition-all hover:bg-gray-800"
+                title={`Switch to ${theme === "vs-dark" ? "light" : "dark"} theme`}
               >
                 {theme === "vs-dark" ? (
                   <SunIcon className="h-4 w-4" />
@@ -185,13 +203,38 @@ const Editor = () => {
                   <MoonIcon className="h-4 w-4" />
                 )}
               </button>
+              <select
+                className="text-black rounded p-1"
+                value={fontSize}
+                onChange={(e) => setFontSize(parseInt(e.target.value, 10))}
+              >
+                {[12, 14, 16, 18, 20, 24].map((size) => (
+                  <option key={size} value={size}>
+                    {size}px
+                  </option>
+                ))}
+              </select>
             </div>
-            <button
-              className="btnNormal !w-fit !px-[8px] !py-[6px] text-sm md:!px-[20px] bg-blue-500 transition-all hover:bg-blue-600"
-              onClick={runProject}
-            >
-              Run
-            </button>
+            <div className="flex items-center space-x-2">
+              <button
+                className="btnNormal !w-fit !px-[8px] !py-[6px] text-sm md:!px-[20px] bg-green-500 transition-all hover:bg-green-600"
+                onClick={exportCode}
+              >
+                <DownloadIcon className="h-4 w-4" />
+              </button>
+              <button
+                className="btnNormal !w-fit !px-[8px] !py-[6px] text-sm md:!px-[20px] bg-blue-500 transition-all hover:bg-blue-600"
+                onClick={runProject}
+              >
+                Run
+              </button>
+              <button
+                className="btnNormal !w-fit !px-[8px] !py-[6px] text-sm md:!px-[20px] bg-red-500 transition-all hover:bg-red-600"
+                onClick={clearOutput}
+              >
+                <TrashIcon className="h-4 w-4" />
+              </button>
+            </div>
           </div>
           <textarea
             placeholder="Enter input for your program"
