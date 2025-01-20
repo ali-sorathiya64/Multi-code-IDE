@@ -216,7 +216,7 @@ const Home = () => {
       <Navbar />
       <div className="container mx-auto mt-8 px-4 md:px-8 lg:px-16">
         <div className="flex flex-col sm:flex-row items-center justify-between bg-black py-4 px-6 rounded-md shadow-lg">
-          <h3 className="text-4xl font-bold text-white">👋 Welcome, User!</h3>
+          <h3 className="text-3xl font-bold text-white">👋 Welcome, User!</h3>
           <button
             onClick={() => setIsCreateModelShow(true)}
             className="btn bg-gradient-to-r from-cyan-500 to-teal-400 text-white hover:from-cyan-600 hover:to-teal-500 transition-all rounded-lg py-2 px-6 shadow-lg mt-4 sm:mt-0"
