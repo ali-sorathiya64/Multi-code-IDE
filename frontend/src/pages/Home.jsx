@@ -214,7 +214,7 @@ const Home = () => {
   return (
     <>
       <Navbar />
-      <div className="container mx-auto mt-8 px-4 md:px-8 lg:px-16">
+      {/* <div className="container mx-auto mt-8 px-4 md:px-8 lg:px-16">
         <div className="flex flex-col sm:flex-row items-center justify-between bg-black py-4 px-6 rounded-md shadow-lg">
           <h3 className="text-4xl font-bold text-white">👋 Welcome, User!</h3>
           <button
@@ -223,7 +223,24 @@ const Home = () => {
           >
             Create Project
           </button>
-        </div>
+        </div> */}
+        <div className="container mx-auto mt-6 px-4 md:px-8 lg:px-16">
+  <div className="flex flex-col sm:flex-row items-center justify-between bg-black py-4 px-4 sm:px-6 rounded-md shadow-lg">
+    {/* Title */}
+    <h3 className="text-3xl sm:text-4xl font-bold text-white text-center sm:text-left mb-4 sm:mb-0">
+      👋 Welcome, User!
+    </h3>
+    
+    {/* Create Project Button */}
+    <button
+      onClick={() => setIsCreateModelShow(true)}
+      className="btn w-full sm:w-auto bg-gradient-to-r from-cyan-500 to-teal-400 text-white hover:from-cyan-600 hover:to-teal-500 transition-all rounded-lg py-2 px-6 shadow-lg"
+    >
+      Create Project
+    </button>
+  </div>
+
+
 
         {/* Projects List */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mt-10">
